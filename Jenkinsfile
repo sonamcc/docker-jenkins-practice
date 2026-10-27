@@ -3,37 +3,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Source code is available in the Jenkins workspace'
-            }
-        }
-
         stage('Check Docker') {
             steps {
-                bat 'docker --version'
+                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" --version'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t docker-practice:jenkins-%BUILD_NUMBER% .'
+                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" build -t docker-practice:v1 .'
             }
         }
 
         stage('Verify Docker Image') {
             steps {
-                bat 'docker image inspect docker-practice:jenkins-%BUILD_NUMBER%'
+                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" images docker-practice'
             }
         }
     }
-
-    post {
-        success {
-            echo 'Docker image built successfully!'
-        }
-        failure {
-            echo 'Build failed. Check Console Output.'
-        }
-    }
 }
+
